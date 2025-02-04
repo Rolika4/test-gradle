@@ -1,6 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '3.0.3'
-    id "org.sonarqube" version "3.2.0"
+    id "org.sonarqube" version "4.3.1.3277"
 }
 
 apply plugin: 'java'
@@ -12,14 +12,21 @@ apply plugin: 'java-library'
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        xml.destination file("${buildDir}/reports/jacoco.xml")
+        xml.required.set(true)
+        xml.outputLocation.set(file("${buildDir}/reports/jacoco.xml"))
     }
 }
 
 sonarqube {
     properties {
         property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/jacoco.xml"
+        property 'sonar.junit.reportPaths', "${buildDir}/test-results/test"
+    }
+}
+
+test {
+    reports {
+        junitXml.outputLocation.set(file("${buildDir}/test-results/test"))
     }
 }
 
@@ -28,8 +35,8 @@ version = '0.0.1-SNAPSHOT'
 
 description = """"""
 
-sourceCompatibility = 17
-targetCompatibility = 17
+sourceCompatibility = 21
+targetCompatibility = 21
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -51,7 +58,7 @@ publishing {
                 username = System.getenv('CI_USERNAME') ?: project.findProperty('nexusLogin') ?: 'defaultLogin'
                 password = System.getenv('CI_PASSWORD') ?: project.findProperty('nexusPassword') ?: 'defaultPassword'
             }
-            def defaultRepoUrl = 'http://nexus:8081/repository/edp-maven-snapshots'
+            def defaultRepoUrl = 'http://nexus:8081/repository/krci-maven-snapshots'
             def releasesRepoUrl = project.findProperty('releasesRepoUrl') ?: defaultRepoUrl
             def snapshotsRepoUrl = project.findProperty('snapshotsRepoUrl') ?: defaultRepoUrl
             url = version.contains('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
