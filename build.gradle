@@ -12,14 +12,15 @@ apply plugin: 'java-library'
 
 jacocoTestReport {
     reports {
-        xml.required.set(true)  // Correct way to enable XML report
-        xml.outputLocation.set(file("${buildDir}/reports/jacoco.xml"))  // Correct way to set the output location
+        xml.required.set(true)
+        xml.outputLocation.set(file("${buildDir}/reports/jacoco.xml"))
     }
 }
 
 sonarqube {
     properties {
         property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/jacoco.xml"
+        property 'sonar.junit.reportPaths', "${buildDir}/test-results/test"
     }
 }
 
