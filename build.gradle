@@ -28,8 +28,8 @@ version = '0.0.1-SNAPSHOT'
 
 description = """"""
 
-sourceCompatibility = 17
-targetCompatibility = 17
+sourceCompatibility = 21
+targetCompatibility = 21
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -51,7 +51,7 @@ publishing {
                 username = System.getenv('CI_USERNAME') ?: project.findProperty('nexusLogin') ?: 'defaultLogin'
                 password = System.getenv('CI_PASSWORD') ?: project.findProperty('nexusPassword') ?: 'defaultPassword'
             }
-            def defaultRepoUrl = 'http://nexus:8081/repository/edp-maven-snapshots'
+            def defaultRepoUrl = 'http://nexus:8081/repository/krci-maven-snapshots'
             def releasesRepoUrl = project.findProperty('releasesRepoUrl') ?: defaultRepoUrl
             def snapshotsRepoUrl = project.findProperty('snapshotsRepoUrl') ?: defaultRepoUrl
             url = version.contains('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
