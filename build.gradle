@@ -1,6 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '3.0.3'
-    id "org.sonarqube" version "3.2.0"
+    id "org.sonarqube" version "4.3.1.3277"
 }
 
 apply plugin: 'java'
@@ -21,6 +21,12 @@ sonarqube {
     properties {
         property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/jacoco.xml"
         property 'sonar.junit.reportPaths', "${buildDir}/test-results/test"
+    }
+}
+
+test {
+    reports {
+        junitXml.outputLocation.set(file("${buildDir}/test-results/test"))
     }
 }
 
